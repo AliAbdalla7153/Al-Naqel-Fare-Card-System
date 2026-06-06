@@ -99,6 +99,10 @@ public class TravellerService {
 
     }
 
+    public List<Station> fetchAllStations() {
+        return inMemoryCardTransactionRepository.fetchAllStations();
+    }
+
     public TravelCardResponse checkCardDetail(String cardNumber) {
         TravelCard travelCard = inMemoryCardTransactionRepository.findCardByCardNumber(cardNumber);
         return travelCardConverter.travelCard2TravelCardResponseConverter.apply(travelCard);
