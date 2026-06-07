@@ -1,5 +1,6 @@
 package com.demo.travelcardsystem.businessrule;
 
+import com.demo.travelcardsystem.config.FareProperties;
 import com.demo.travelcardsystem.constant.TransportType;
 import com.demo.travelcardsystem.constant.Zone;
 import com.demo.travelcardsystem.entity.ZonePair;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.function.DoubleConsumer;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-
 @Data
 @Component
 @RequiredArgsConstructor
@@ -20,6 +20,10 @@ public class TravelStrategy {
     private RuleCollection ruleCollection;
 
     public final DoubleConsumer anyWhereInZoneOneStrategy = chargeableAmount -> {
+    @NonNull
+    private FareProperties fareProperties;
+
+    public Consumer<Double> anyWhereInZoneOneStrategy = chargeableAmount -> {
         Rule rule = new Rule();
         rule.setChargeableFare(chargeableAmount);
 
@@ -86,14 +90,14 @@ public class TravelStrategy {
     };
 
     public RuleCollection loadAllBusinessRules() {
-        anyWhereInZoneOneStrategy.accept(2.50);
-        anyOneZoneOutsideZoneOneStrategy.accept(2.00);
-        anyTwoZoneIncludingZoneOneStrategy.accept(3.00);
-        anyTwoZoneExcludingZoneOneStrategy.accept(2.25);
-        anyThreeZoneStrategy.accept(3.20);
-        anyJourneyByBus.accept(1.80, TransportType.BUS);
+        anyWhereInZoneOneStrategy.accept(fareProperties.getZoneOne());
+        anyOneZoneOutsideZoneOneStrategy.accept(fareProperties.getZoneOutsideOne());
+        anyTwoZoneIncludingZoneOneStrategy.accept(fareProperties.getTwoZonesIncludingOne());
+        anyTwoZoneExcludingZoneOneStrategy.accept(fareProperties.getTwoZonesExcludingOne());
+        anyThreeZoneStrategy.accept(fareProperties.getThreeZones());
+        anyJourneyByBus.accept(fareProperties.getBus(), TransportType.BUS);
 
-        this.ruleCollection.setMaxFare(3.20);
+        this.ruleCollection.setMaxFare(fareProperties.getMax());
 
         return this.ruleCollection;
     }
