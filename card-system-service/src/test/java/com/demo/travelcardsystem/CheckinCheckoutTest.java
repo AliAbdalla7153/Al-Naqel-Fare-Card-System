@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
- class CheckinCheckoutTest extends IntegrationTest {
+public class CheckinCheckoutTest extends IntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,13 +33,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
     @BeforeEach
-     void resetRepository() {
+    public void resetRepository() {
         inMemoryCardTransactionRepository.clearTravelCardStore();
     }
 
     @DisplayName("User take few trips and check balance at end of the trip")
     @Test
-     void user_take_trip_and_check_balance() throws Exception {
+    public void user_take_trip_and_check_balance() throws Exception {
         //GIVEN - User/Travel-card exists in the system
         TravelCard travelCard = travelHelperTest.directUserRegistration("1A101", 30);
         SwipeRequest swipeRequest =  null;
