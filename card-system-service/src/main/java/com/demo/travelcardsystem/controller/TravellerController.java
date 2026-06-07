@@ -41,10 +41,6 @@ public class TravellerController {
     public TravelCardResponse checkCardDetail(@PathVariable String cardNumber) {
         return travellerService.checkCardDetail(cardNumber);
     }
-     @GetMapping(value = "/stations")
-    public List<Station> fetchAllStations() {
-        return travellerService.fetchAllStations();
-    }
 
     @GetMapping
     public List<String> fetchAllCard() {
